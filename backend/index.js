@@ -3,9 +3,9 @@ const fs = require('fs');
 const app = express();
 const path = require('path');
 const cors = require('cors');
+const PORT = 3000;
 
 app.use(cors());
-
 app.use(express.json());
 
 const corsOptions = {
@@ -16,25 +16,30 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500'); // Replace with your actual origin
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
 
 
 app.post('/api/data', (req, res) => {
-    const { numbers, timestamp } = req.body;
+    //let timestamp = new Date(8.64e15).toString()
+    let { numbers } = req.body;
 
     const dbFilePath = path.join(__dirname, './db.json');
     const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
 
     const newData = {
         numbers,
-        timestamp,
+        formattedTime,
     };
 
     dbData.data.push(newData);
     fs.writeFileSync(dbFilePath, JSON.stringify(dbData, null, 2));
     res.json({ message: 'Data stored successfully' });
 });
-
 
 app.get('/api/data', (req, res) => {
     const dbFilePath = path.join(__dirname, 'db.json');
@@ -44,14 +49,24 @@ app.get('/api/data', (req, res) => {
     res.json(dbData.data);
 });
 
+let timeStamp = Date.now();
+let formattedTime = formatTime(timeStamp);
 
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'PM' : 'AM';
 
+    hours = hours % 12;
+    hours = hours ? hours : 12;
 
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
 
+    return `${hours}:${minutes}${ampm}`;
+}
 
-
-
-const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
