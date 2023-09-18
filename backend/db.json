@@ -2,15 +2,30 @@
   "data": [
     {
       "numbers": [
-        "2,3,4,5"
+        "2",
+        "3",
+        "4",
+        "5"
       ],
-      "timestamp": "09:35PM"
+      "formattedTime": "09:56PM"
     },
     {
       "numbers": [
-        "2,3,4,5"
+        "2",
+        "3",
+        "4",
+        "5"
       ],
-      "timestamp": "08:35PM"
+      "formattedTime": "09:56PM"
+    },
+    {
+      "numbers": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "formattedTime": "09:56PM"
     }
   ]
 }
