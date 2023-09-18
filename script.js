@@ -2,7 +2,54 @@ let numberFromApiCall = JSON.parse(localStorage.getItem('api-nums')) || [];
 let fragmentElements = [];
 let animationInterval;
 let collisionStarted = false;
-// let numberFromApiCall = [12, 12, 12, 12];
+
+document.getElementById('click-me').addEventListener('click', (e) => {
+    const number1 = document.getElementById("number1").textContent;
+    const number2 = document.getElementById("number2").textContent;
+    const number3 = document.getElementById("number3").textContent;
+    const number4 = document.getElementById("number4").textContent;
+    console.log("clicked")
+    e.preventDefault();
+    fetch('http://localhost:3000/api/data', {
+        method: 'POST',
+        body: JSON.stringify({ numbers: [number1, number2, number3, number4].map(Number) }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        });
+
+})
+
+
+let timeContainer = document.getElementById('time');
+setInterval(() => {
+    timeContainer.innerHTML = ''
+    let localTime = (new Date()).toLocaleString({ hour12: true });
+    let ist = new Date(localTime);
+    let ampm = Number(ist.getHours()) >= 12 ? 'PM' : 'AM';
+    let h1 = document.createElement('h1');
+    h1.id = 'hour'
+    h1.innerHTML = `${Number(ist.getHours()) % 12}hr`;
+    let h2 = document.createElement('h1');
+    h2.id = 'minute'
+    h2.innerHTML = `${ist.getMinutes()}min`;
+    let h3 = document.createElement('h1');
+    h3.id = 'sec'
+    h3.innerHTML = `${ist.getSeconds()}sec ${ampm}`;
+    timeContainer.append(h1);
+    timeContainer.append(h2);
+    timeContainer.append(h3);
+    // if (Number(ist.getSeconds() % 10 === 0)) {
+    //     getTimeAndCollide();
+    //     generateNumbers();
+    // }
+}, 1000)
 
 // Function to generate a random number from 1 to 100
 function getRandomNumber() {
@@ -46,6 +93,10 @@ function updateFragmentPositions() {
 // Start collision animation based on button click
 const collisionButton = document.getElementById("collisionButton");
 collisionButton.addEventListener("click", () => {
+
+});
+
+function getTimeAndCollide() {
     if (!collisionStarted) {
         collisionStarted = true;
         // Start animation and stop after 10 seconds
@@ -55,7 +106,7 @@ collisionButton.addEventListener("click", () => {
             collisionStarted = false; // Reset the collision flag
         }, 10000); // 10 seconds in milliseconds
     }
-});
+}
 
 // Add 100 number fragments to the container
 const container = document.getElementById("container");
@@ -64,10 +115,33 @@ for (let i = 1; i <= 100; i++) {
     fragmentElements.push(fragmentElement);
 }
 
+function getFromattedTime() {
+    let localTime = (new Date()).toLocaleString({ hour12: true });
+    let ist = new Date(localTime);
+    let ampm = Number(ist.getHours()) >= 12 ? 'PM' : 'AM';
+    return `${ist.getHours()}:${ist.getMinutes()} ${ampm}`;
+}
 
+function postNumber(numbers) {
+    fetch('http://localhost:3000/api/data', {
+        method: 'POST',
+        body: JSON.stringify({ numbers: [...numbers].map(Number),timeStamp: getFromattedTime()}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        });
+
+    console.log(numbers);
+}
 
 function generateRandomNumber() {
-    return Math.floor(Math.random() * 90 + 10); // Generates a random 2-digit number between 10 and 99
+    return Math.floor(Math.random() * (100 - 1 + 1) + 1); // Generates a random 2-digit number between 10 and 99
 }
 
 function generateNumbers() {
@@ -77,9 +151,9 @@ function generateNumbers() {
     const number3 = document.getElementById("number3");
     const number4 = document.getElementById("number4");
 
-    const animationDuration = 500; // Animation duration in milliseconds
+    const animationDuration = 10000; // Animation duration in milliseconds
 
-    const interval = animationDuration / 10; // Interval for each step of the animation
+    const interval = 5; // Interval for each step of the animation
 
     let currentNumber1 = 0;
     let currentNumber2 = 0;
@@ -121,9 +195,8 @@ function generateNumbers() {
     }, animationDuration);
     setTimeout(() => {
         clearInterval(animation);
-        console.log(numberFromApiCall)
+        postNumber([number1.textContent, number2.textContent, number3.textContent, number4.textContent]);
         if (numberFromApiCall.length >= 4) {
-            // If there are enough values in numberFromApiCall, use them initially
             Array.from(document.getElementsByClassName("number-container"))?.map((elem, index) => {
                 elem.innerHTML = numberFromApiCall[index];
             })
@@ -132,7 +205,6 @@ function generateNumbers() {
     }, 1000)
 
 }
-
 
 
 document.getElementById('num-gen').addEventListener('click', generateNumbers);
