@@ -118,14 +118,16 @@ for (let i = 1; i <= 100; i++) {
 function getFromattedTime() {
     let localTime = (new Date()).toLocaleString({ hour12: true });
     let ist = new Date(localTime);
+    let date = `${ist.getDate()}-${ist.getMonth()}-${ist.getFullYear()}`;
     let ampm = Number(ist.getHours()) >= 12 ? 'PM' : 'AM';
-    return `${ist.getHours()}:${ist.getMinutes()} ${ampm}`;
+    return { timeStamp: `${ist.getHours()}:${ist.getMinutes()} ${ampm}`, date };
 }
 
 function postNumber(numbers) {
+    let dateTime = getFromattedTime();
     fetch('http://localhost:3000/api/data', {
         method: 'POST',
-        body: JSON.stringify({ numbers: [...numbers].map(Number),timeStamp: getFromattedTime()}),
+        body: JSON.stringify({ numbers: [...numbers].map(Number), timeStamp: dateTime.timeStamp, date: dateTime.date }),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -143,7 +145,13 @@ function postNumber(numbers) {
 function generateRandomNumber() {
     return Math.floor(Math.random() * (100 - 1 + 1) + 1); // Generates a random 2-digit number between 10 and 99
 }
-
+async function getNumbers() {
+    let data = await fetch('http://localhost:3000/api/data');
+    let res = await data.json();
+    let arr = [...res];
+    console.log(arr)
+}
+getNumbers();
 function generateNumbers() {
     numberFromApiCall = JSON.parse(localStorage.getItem('api-nums')) || [];
     const number1 = document.getElementById("number1");
@@ -195,7 +203,8 @@ function generateNumbers() {
     }, animationDuration);
     setTimeout(() => {
         clearInterval(animation);
-        postNumber([number1.textContent, number2.textContent, number3.textContent, number4.textContent]);
+        numberFromApiCall =
+            postNumber([number1.textContent, number2.textContent, number3.textContent, number4.textContent]);
         if (numberFromApiCall.length >= 4) {
             Array.from(document.getElementsByClassName("number-container"))?.map((elem, index) => {
                 elem.innerHTML = numberFromApiCall[index];
