@@ -3,6 +3,7 @@ fetch('http://localhost:3000/api/data')
     .then(data => {
         const tableBody = document.getElementById('table-body');
         tableBody.innerHTML="";
+        console.log(data);
         data?.forEach(item => {
             const row = document.createElement('tr');
             const timestampCell = document.createElement('td');
@@ -11,11 +12,11 @@ fetch('http://localhost:3000/api/data')
             const numbersCellThree = document.createElement('td');
             const numbersCellFour = document.createElement('td');
 
-            timestampCell.textContent = item.formattedTime;
-            numbersCellOne.textContent = item.numbers[0];
-            numbersCellTwo.textContent = item.numbers[1];
-            numbersCellThree.textContent = item.numbers[2];
-            numbersCellFour.textContent = item.numbers[3];
+            timestampCell.textContent = item?.timeStamp;
+            numbersCellOne.textContent = item?.numbers[0];
+            numbersCellTwo.textContent = item?.numbers[1];
+            numbersCellThree.textContent = item?.numbers[2];
+            numbersCellFour.textContent = item?.numbers[3];
 
             row.append(timestampCell);
             row.append(numbersCellOne,numbersCellTwo,numbersCellThree,numbersCellFour);

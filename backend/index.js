@@ -17,7 +17,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500'); // Replace with your actual origin
+    res.header('Access-Control-Allow-Origin', '*'); // Replace with your actual origin
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
@@ -26,14 +26,14 @@ app.use((req, res, next) => {
 
 app.post('/api/data', (req, res) => {
     //let timestamp = new Date(8.64e15).toString()
-    let { numbers } = req.body;
-
+    let { numbers,timeStamp } = req.body;
+    console.log(numbers);
     const dbFilePath = path.join(__dirname, './db.json');
     const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
 
     const newData = {
         numbers,
-        formattedTime,
+        timeStamp,
     };
 
     dbData.data.push(newData);

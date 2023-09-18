@@ -1,4 +1,7 @@
  /* Basic styling for the Thunderball container */
+ body{
+    background-color: #1f1d1d !important;
+ }
  .container {
     width: 400px;
     height: 400px;
@@ -66,4 +69,10 @@
     color: white;
     border-radius: 20%;
     padding: 10px;
+}
+#time{
+    width: 35%;
+    margin: auto;
+    display: flex;
+    gap: 20px;
 }
