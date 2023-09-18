@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 app.post('/api/data', (req, res) => {
     //let timestamp = new Date(8.64e15).toString()
-    let { numbers,timeStamp } = req.body;
+    let { numbers,timeStamp,date,user } = req.body;
     console.log(numbers);
     const dbFilePath = path.join(__dirname, './db.json');
     const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
@@ -34,6 +34,8 @@ app.post('/api/data', (req, res) => {
     const newData = {
         numbers,
         timeStamp,
+        date,
+        user: user === undefined || user === '' ? '' : user 
     };
 
     dbData.data.push(newData);
