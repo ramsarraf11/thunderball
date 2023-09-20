@@ -1,8 +1,8 @@
-// let button = document.getElementById('play-btn');
-// button.classList.add('hide')
-// setTimeout(()=>{
-//     button.classList.remove('hide');
-// },5000)
+let button = document.getElementById('play-btn');
+ button.classList.add('hide')
+setTimeout(()=>{
+   button.classList.remove('hide');
+},5000)
 
 
 
