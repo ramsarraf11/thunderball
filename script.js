@@ -233,8 +233,10 @@ async function adminNumber() {
         let date = getDateAndTime(`${e?.date} ${e?.timeStamp}`);
         let todayDate = getFromattedTime();
         if (date === todayDate.date) {
-            if (date.minutes === todayDate.minutes) {
-                    if(todayDate.)
+            if (date.hour === todayDate.hour) {
+                
+            } else {
+
             }
         }
     })
