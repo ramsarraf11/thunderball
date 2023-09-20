@@ -45,13 +45,23 @@ setInterval(() => {
     timeContainer.append(h1);
     timeContainer.append(h2);
     timeContainer.append(h3);
-    // if (Number(ist.getSeconds() % 10 === 0)) {
-    //     getTimeAndCollide();
-    //     generateNumbers();
-    // }
+
+    if (ampm === 'AM' && ist.getHours() >= 8) {
+        if (Number(ist.getMinutes()) % 15 === 0 && (ist.getSeconds() === 0)) {
+            getTimeAndCollide();
+            generateNumbers();
+        }
+    }
+
+    else if (ampm === 'PM') {
+        if (Number(ist.getMinutes()) % 15 === 0 && (ist.getSeconds() === 0)) {
+            getTimeAndCollide();
+            generateNumbers();
+        }
+    }
+
 }, 1000)
 
-// Function to generate a random number from 1 to 100
 function getRandomNumber() {
     return Math.floor(Math.random() * 100) + 1;
 }
@@ -120,7 +130,7 @@ function getFromattedTime() {
     let ist = new Date(localTime);
     let date = `${ist.getDate()}-${ist.getMonth()}-${ist.getFullYear()}`;
     let ampm = Number(ist.getHours()) >= 12 ? 'PM' : 'AM';
-    return { timeStamp: `${ist.getHours()}:${ist.getMinutes()} ${ampm}`, date };
+    return { timeStamp: `${ist.getHours()}:${ist.getMinutes()} ${ampm}`, date, hour: ist.getHours(), minutes: ist.getMinutes() };
 }
 
 function postNumber(numbers) {
@@ -214,6 +224,50 @@ function generateNumbers() {
     }, 1000)
 
 }
+
+async function adminNumber() {
+    let data = await fetch('http://localhost:3000/api/data');
+    data = await data.json();
+    data = data?.filter((e) => e?.user === 'ADMIN')
+    data?.map((e, index) => {
+        let date = getDateAndTime(`${e?.date} ${e?.timeStamp}`);
+        let todayDate = getFromattedTime();
+        if (date === todayDate.date) {
+            if (date.minutes === todayDate.minutes) {
+                    if(todayDate.)
+            }
+        }
+    })
+}
+
+adminNumber()
+
+function getDateAndTime(dateComp) {
+    let dateString = dateComp;
+    // Split the date and time parts
+    let parts = dateString.split(" ");
+    let datePart = parts[0];
+    let timePart = parts[1] + " " + parts[2];
+
+    // Split the date into day, month, and year
+    let dateParts = datePart.split("-");
+    let day = parseInt(dateParts[0], 10);
+    let month = parseInt(dateParts[1], 10) - 1; // Month is 0-based in JavaScript
+    let year = parseInt(dateParts[2], 10);
+
+    let timeParts = timePart.split(":");
+    let hours = parseInt(timeParts[0], 10);
+    let minutes = parseInt(timeParts[1], 10);
+
+    let dateObject = new Date(year, month, day, hours, minutes);
+    return getDate(dateObject);
+}
+
+function getDate(date) {
+    return { date: `${date.getDay()}-${date.getMonth()}-${date.getFullYear}`, hour: date.getHours(), minutes: date.getMinutes(), seconds: date.getSeconds() }
+}
+
+
 
 
 document.getElementById('num-gen').addEventListener('click', generateNumbers);

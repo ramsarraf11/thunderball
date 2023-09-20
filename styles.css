@@ -1,6 +1,6 @@
  /* Basic styling for the Thunderball container */
  body{
-    background-color: #1f1d1d !important;
+    /* background-color: #1f1d1d !important; */
  }
  .container {
     width: 400px;
