@@ -2,30 +2,371 @@
   "data": [
     {
       "numbers": [
-        "2",
-        "3",
-        "4",
-        "5"
+        2,
+        3,
+        4,
+        5
       ],
-      "formattedTime": "09:56PM"
+      "timeStamp": "09:56PM"
     },
     {
       "numbers": [
-        "2",
-        "3",
-        "4",
-        "5"
+        33,
+        46,
+        64,
+        87
       ],
-      "formattedTime": "09:56PM"
+      "timeStamp": "0:5 AM"
     },
     {
       "numbers": [
-        "2",
-        "3",
-        "4",
-        "5"
+        65,
+        60,
+        12,
+        73
       ],
-      "formattedTime": "09:56PM"
+      "timeStamp": "0:5 AM"
+    },
+    {
+      "numbers": [
+        83,
+        72,
+        16,
+        68
+      ],
+      "timeStamp": "0:5 AM"
+    },
+    {
+      "numbers": [
+        65,
+        95,
+        80,
+        42
+      ],
+      "timeStamp": "0:5 AM"
+    },
+    {
+      "numbers": [
+        73,
+        61,
+        51,
+        45
+      ],
+      "timeStamp": "0:6 AM"
+    },
+    {
+      "numbers": [
+        85,
+        25,
+        76,
+        72
+      ],
+      "timeStamp": "0:6 AM"
+    },
+    {
+      "numbers": [
+        36,
+        22,
+        60,
+        80
+      ],
+      "timeStamp": "0:6 AM"
+    },
+    {
+      "numbers": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timeStamp": "0:6 AM"
+    },
+    {
+      "numbers": [
+        33,
+        89,
+        95,
+        29
+      ],
+      "timeStamp": "0:6 AM"
+    },
+    {
+      "numbers": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timeStamp": "0:7 AM"
+    },
+    {
+      "numbers": [
+        38,
+        59,
+        42,
+        42
+      ],
+      "timeStamp": "0:7 AM"
+    },
+    {
+      "numbers": [
+        27,
+        81,
+        59,
+        75
+      ],
+      "timeStamp": "0:7 AM"
+    },
+    {
+      "numbers": [
+        40,
+        11,
+        89,
+        97
+      ],
+      "timeStamp": "0:7 AM"
+    },
+    {
+      "numbers": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timeStamp": "0:37 AM"
+    },
+    {
+      "numbers": [
+        61,
+        66,
+        76,
+        77
+      ],
+      "timeStamp": "0:37 AM"
+    },
+    {
+      "numbers": [
+        97,
+        92,
+        79,
+        78
+      ],
+      "timeStamp": "0:37 AM"
+    },
+    {
+      "numbers": [
+        35,
+        13,
+        59,
+        66
+      ],
+      "timeStamp": "0:38 AM"
+    },
+    {
+      "numbers": [
+        79,
+        32,
+        78,
+        60
+      ],
+      "timeStamp": "0:38 AM"
+    },
+    {
+      "numbers": [
+        90,
+        45,
+        23,
+        54
+      ],
+      "timeStamp": "0:38 AM"
+    },
+    {
+      "numbers": [
+        51,
+        92,
+        31,
+        16
+      ],
+      "timeStamp": "0:38 AM"
+    },
+    {
+      "numbers": [
+        92,
+        89,
+        44,
+        25
+      ],
+      "timeStamp": "0:38 AM"
+    },
+    {
+      "numbers": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "timeStamp": "0:38 AM"
+    },
+    {
+      "numbers": [
+        44,
+        99,
+        13,
+        79
+      ],
+      "timeStamp": "0:39 AM"
+    },
+    {
+      "numbers": [
+        34,
+        34,
+        3,
+        48
+      ],
+      "timeStamp": "0:39 AM"
+    },
+    {
+      "numbers": [
+        13,
+        11,
+        64,
+        10
+      ],
+      "timeStamp": "0:39 AM"
+    },
+    {
+      "numbers": [
+        69,
+        41,
+        89,
+        46
+      ],
+      "timeStamp": "0:43 AM"
+    },
+    {
+      "numbers": [
+        98,
+        48,
+        99,
+        53
+      ],
+      "timeStamp": "0:56 AM"
+    },
+    {
+      "numbers": [
+        25,
+        28,
+        14,
+        49
+      ],
+      "timeStamp": "0:56 AM"
+    },
+    {
+      "numbers": [
+        48,
+        69,
+        21,
+        84
+      ],
+      "timeStamp": "0:56 AM"
+    },
+    {
+      "numbers": [
+        64,
+        44,
+        79,
+        99
+      ],
+      "timeStamp": "0:56 AM"
+    },
+    {
+      "numbers": [
+        55,
+        99,
+        64,
+        58
+      ],
+      "timeStamp": "0:56 AM"
+    },
+    {
+      "numbers": [
+        76,
+        72,
+        40,
+        30
+      ],
+      "timeStamp": "0:56 AM"
+    },
+    {
+      "numbers": [
+        32,
+        62,
+        62,
+        48
+      ],
+      "timeStamp": "0:57 AM"
+    },
+    {
+      "numbers": [
+        27,
+        15,
+        54,
+        64
+      ],
+      "timeStamp": "0:57 AM"
+    },
+    {
+      "numbers": [
+        82,
+        40,
+        57,
+        83
+      ],
+      "timeStamp": "0:57 AM"
+    },
+    {
+      "numbers": [
+        77,
+        63,
+        99,
+        28
+      ],
+      "timeStamp": "0:57 AM"
+    },
+    {
+      "numbers": [
+        77,
+        63,
+        99,
+        28
+      ]
+    },
+    {
+      "numbers": [
+        96,
+        86,
+        21,
+        53
+      ],
+      "timeStamp": "0:57 AM"
+    },
+    {
+      "numbers": [
+        50,
+        77,
+        72,
+        73
+      ],
+      "timeStamp": "0:57 AM"
+    },
+    {
+      "numbers": [
+        39,
+        94,
+        35,
+        45
+      ],
+      "timeStamp": "0:58 AM"
     }
   ]
 }
