@@ -46,16 +46,20 @@ setInterval(() => {
     timeContainer.append(h2);
     timeContainer.append(h3);
 
-    if (ampm === 'AM' && ist.getHours() >= 8) {
+    if (ampm === 'AM') {
         if (Number(ist.getMinutes()) % 15 === 0 && (ist.getSeconds() === 0)) {
+            console.log("AM GOT TRIGGERED");
             getTimeAndCollide();
+            adminNumber();
             generateNumbers();
         }
     }
 
     else if (ampm === 'PM') {
         if (Number(ist.getMinutes()) % 15 === 0 && (ist.getSeconds() === 0)) {
+            console.log("PM RUNNING")
             getTimeAndCollide();
+            adminNumber();
             generateNumbers();
         }
     }
@@ -155,13 +159,7 @@ function postNumber(numbers) {
 function generateRandomNumber() {
     return Math.floor(Math.random() * (100 - 1 + 1) + 1); // Generates a random 2-digit number between 10 and 99
 }
-async function getNumbers() {
-    let data = await fetch('http://localhost:3000/api/data');
-    let res = await data.json();
-    let arr = [...res];
-    console.log(arr)
-}
-getNumbers();
+
 function generateNumbers() {
     numberFromApiCall = JSON.parse(localStorage.getItem('api-nums')) || [];
     const number1 = document.getElementById("number1");
@@ -192,8 +190,8 @@ function generateNumbers() {
 
     setTimeout(() => {
         clearInterval(animation);
-
-        if (numberFromApiCall.length >= 4) {
+        console.log("Called Finally", numberFromApiCall);
+        if (numberFromApiCall?.length >= 4) {
             number1.textContent = numberFromApiCall[0];
             number2.textContent = numberFromApiCall[1];
             number3.textContent = numberFromApiCall[2];
@@ -213,14 +211,17 @@ function generateNumbers() {
     }, animationDuration);
     setTimeout(() => {
         clearInterval(animation);
-        numberFromApiCall =
-            postNumber([number1.textContent, number2.textContent, number3.textContent, number4.textContent]);
-        if (numberFromApiCall.length >= 4) {
+        console.log(numberFromApiCall);
+        if (numberFromApiCall?.length >= 4) {
             Array.from(document.getElementsByClassName("number-container"))?.map((elem, index) => {
                 elem.innerHTML = numberFromApiCall[index];
             })
             localStorage.removeItem('api-nums');
         }
+        else {
+            postNumber([number1.textContent, number2.textContent, number3.textContent, number4.textContent]);
+        }
+
     }, 1000)
 
 }
@@ -229,20 +230,58 @@ async function adminNumber() {
     let data = await fetch('http://localhost:3000/api/data');
     data = await data.json();
     data = data?.filter((e) => e?.user === 'ADMIN')
-    data?.map((e, index) => {
+    for (let i = 0; i < data?.length; i++) {
+        let e = data[i];
         let date = getDateAndTime(`${e?.date} ${e?.timeStamp}`);
         let todayDate = getFromattedTime();
-        if (date === todayDate.date) {
-            if (date.hour === todayDate.hour) {
-                
-            } else {
-
+        let timeDiff = calculateTimeDifferences(e?.timeStamp.split(" ")[0]);
+        console.log("Running But Not Going")
+        if (date.date === todayDate.date) {
+            console.log("DATE MATCHED");
+            console.log("Prev",timeDiff.previousTimeDifference.minutes,"Next", timeDiff.nextTimeDifference.minutes)
+            if (timeDiff.previousTimeDifference.minutes >= 0 && timeDiff.nextTimeDifference.minutes >= 1) {
+                numberFromApiCall = [...e.numbers];
+                console.log(numberFromApiCall);
+                console.log("RECORD FOUND");
+                break;
             }
         }
-    })
+    }
 }
 
-adminNumber()
+function calculateTimeDifferences(inputTime) {
+    const [hours, minutes] = inputTime.split(':').map(Number);
+    // Get the current time in IST
+    const currentTime = new Date();
+    const currentHoursUTC = currentTime.getUTCHours();
+    const currentMinutesUTC = currentTime.getUTCMinutes();
+
+    // Calculate the total minutes from midnight for the current time in IST
+    const totalMinutesCurrentIST = (currentHoursUTC + 5) * 60 + currentMinutesUTC + 30;
+
+    // Calculate the nearest time divisible by 15 minutes before the current time in IST
+    const time15Before = Math.floor(totalMinutesCurrentIST / 15) * 15;
+
+    // Calculate the time difference between current time and the nearest time divisible by 15 before
+    const timeDifference15Before = minutes - time15Before;
+
+    // Calculate the nearest time divisible by 15 minutes after the current time in IST
+    const time15After = (Math.floor(totalMinutesCurrentIST / 15) + 1) * 15;
+
+    // Calculate the time difference between current time and the nearest time divisible by 15 after
+    const timeDifference15After = time15After - minutes;
+
+    return {
+        nextTimeDifference: {
+            hours: Math.floor(timeDifference15Before / 60),
+            minutes: timeDifference15Before % 60,
+        },
+        previousTimeDifference: {
+            hours: Math.floor(timeDifference15After / 60),
+            minutes: timeDifference15After % 60,
+        },
+    };
+}
 
 function getDateAndTime(dateComp) {
     let dateString = dateComp;
@@ -266,10 +305,25 @@ function getDateAndTime(dateComp) {
 }
 
 function getDate(date) {
-    return { date: `${date.getDay()}-${date.getMonth()}-${date.getFullYear}`, hour: date.getHours(), minutes: date.getMinutes(), seconds: date.getSeconds() }
+    return {
+        date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`, // Adding 1 to month to make it 1-based
+        hour: date.getHours(),
+        minutes: date.getMinutes(),
+        seconds: date.getSeconds(),
+    };
 }
 
 
 
 
+
 document.getElementById('num-gen').addEventListener('click', generateNumbers);
+
+
+new Date((new Date()).toLocaleDateString)
+
+
+
+
+let timeDiff = calculateTimeDifferences('1:26 AM'.split(" ")[0]);
+console.log(timeDiff.nextTimeDifference.minutes,timeDiff.previousTimeDifference.minutes)
