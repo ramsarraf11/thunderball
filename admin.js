@@ -22,7 +22,7 @@ document.getElementById('submit').addEventListener('click', (e) => {
     console.log("Clicked");
     let { date, timeStamp } = getFromattedTime();
     console.log(one.value)
-    fetch('http://localhost:3000/api/data', {
+    fetch('http://localhost:3000/api/admin', {
         method: "POST",
         body: JSON.stringify({ numbers: [Number(one.value), Number(two.value), Number(three.value), Number(four.value)], timeStamp, user: "ADMIN", date }),
         headers: {

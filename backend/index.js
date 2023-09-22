@@ -25,8 +25,7 @@ app.use((req, res, next) => {
 
 
 app.post('/api/data', (req, res) => {
-    //let timestamp = new Date(8.64e15).toString()
-    let { numbers,timeStamp,date,user } = req.body;
+    let { numbers, timeStamp, date, user } = req.body;
     console.log(numbers);
     const dbFilePath = path.join(__dirname, './db.json');
     const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
@@ -35,7 +34,7 @@ app.post('/api/data', (req, res) => {
         numbers,
         timeStamp,
         date,
-        user: user === undefined || user === '' ? '' : user 
+        user: user === undefined || user === '' ? '' : user
     };
 
     dbData.data.push(newData);
@@ -43,13 +42,60 @@ app.post('/api/data', (req, res) => {
     res.json({ message: 'Data stored successfully' });
 });
 
-app.get('/api/data', (req, res) => {
-    const dbFilePath = path.join(__dirname, 'db.json');
-
+app.post('/api/admin', (req, res) => {
+    let { numbers, timeStamp, date, user } = req.body;
+    // console.log(numbers);
+    const dbFilePath = path.join(__dirname, './data.json');
     const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
 
-    res.json(dbData.data);
+    const newData = {
+        numbers,
+        timeStamp,
+        date,
+        user: user === undefined || user === '' ? '' : user
+    };
+
+    dbData.data.push(newData);
+    fs.writeFileSync(dbFilePath, JSON.stringify(dbData, null, 2));
+    res.json({ message: 'Data stored successfully' });
+})
+
+app.get('/api/data', (req, res) => {
+    let param = req.query.latest;
+    if (param === "admin") {
+        const dbFilePath = path.join(__dirname, 'db.json');
+        const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
+        if (dbData.data.length === 0) {
+            res.status(404).json({ error: 'No data found in the database' });
+            return;
+        }
+        const latestData = dbData.data[dbData.data.length - 1];
+        res.json(latestData);
+    } else {
+        const dbFilePath = path.join(__dirname, 'db.json');
+        const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
+        res.json(dbData.data);
+    }
 });
+
+app.get('/api/admin', (req, res) => {
+    let param = req.query.latest;
+    if (param === "admin") {
+        const dbFilePath = path.join(__dirname, 'db.json');
+        const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
+        if (dbData.data.length === 0) {
+            res.status(404).json({ error: 'No data found in the database' });
+            return;
+        }
+        const latestData = dbData.data[dbData.data.length - 1];
+        res.json(latestData);
+    } else {
+        const dbFilePath = path.join(__dirname, 'db.json');
+        const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
+        res.json(dbData.data);
+    }
+});
+
 
 let timeStamp = Date.now();
 let formattedTime = formatTime(timeStamp);
