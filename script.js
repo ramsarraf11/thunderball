@@ -3,28 +3,28 @@ let fragmentElements = [];
 let animationInterval;
 let collisionStarted = false;
 
-document.getElementById('click-me').addEventListener('click', (e) => {
-    const number1 = document.getElementById("number1").textContent;
-    const number2 = document.getElementById("number2").textContent;
-    const number3 = document.getElementById("number3").textContent;
-    const number4 = document.getElementById("number4").textContent;
-    console.log("clicked")
-    e.preventDefault();
-    fetch('http://localhost:3000/api/data', {
-        method: 'POST',
-        body: JSON.stringify({ numbers: [number1, number2, number3, number4].map(Number) }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => {
-            console.log(error)
-        });
+// document.getElementById('click-me').addEventListener('click', (e) => {
+//     const number1 = document.getElementById("number1").textContent;
+//     const number2 = document.getElementById("number2").textContent;
+//     const number3 = document.getElementById("number3").textContent;
+//     const number4 = document.getElementById("number4").textContent;
+//     console.log("clicked")
+//     e.preventDefault();
+//     fetch('http://localhost:3000/api/data', {
+//         method: 'POST',
+//         body: JSON.stringify({ numbers: [number1, number2, number3, number4].map(Number) }),
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then(response => {
+//             console.log(response)
+//         })
+//         .catch(error => {
+//             console.log(error)
+//         });
 
-})
+// })
 
 
 let timeContainer = document.getElementById('time');
@@ -45,7 +45,6 @@ setInterval(() => {
     timeContainer.append(h1);
     timeContainer.append(h2);
     timeContainer.append(h3);
-
     if (ampm === 'AM') {
         if (Number(ist.getMinutes()) % 15 === 0 && (ist.getSeconds() === 0)) {
             console.log("AM GOT TRIGGERED");
@@ -104,11 +103,7 @@ function updateFragmentPositions() {
     });
 }
 
-// Start collision animation based on button click
-const collisionButton = document.getElementById("collisionButton");
-collisionButton.addEventListener("click", () => {
 
-});
 
 function getTimeAndCollide() {
     if (!collisionStarted) {
@@ -238,8 +233,9 @@ async function adminNumber() {
         console.log("Running But Not Going")
         if (date.date === todayDate.date) {
             console.log("DATE MATCHED");
-            console.log("Prev",timeDiff.previousTimeDifference.minutes,"Next", timeDiff.nextTimeDifference.minutes)
-            if (timeDiff.previousTimeDifference.minutes >= 0 && timeDiff.nextTimeDifference.minutes >= 1) {
+            let time = convertTo24HourFormat(e?.timeStamp);
+            if (isAvailable(time.hours,time.minutes)) {
+                console.log("Finally Avilable")
                 numberFromApiCall = [...e.numbers];
                 console.log(numberFromApiCall);
                 console.log("RECORD FOUND");
@@ -317,7 +313,7 @@ function getDate(date) {
 
 
 
-document.getElementById('num-gen').addEventListener('click', generateNumbers);
+// document.getElementById('num-gen').addEventListener('click', generateNumbers);
 
 
 new Date((new Date()).toLocaleDateString)
@@ -325,5 +321,57 @@ new Date((new Date()).toLocaleDateString)
 
 
 
-let timeDiff = calculateTimeDifferences('1:26 AM'.split(" ")[0]);
-console.log(timeDiff.nextTimeDifference.minutes,timeDiff.previousTimeDifference.minutes)
+let timeDiff = calculateTimeDifferences('1:40 AM'.split(" ")[0]);
+console.log(timeDiff.nextTimeDifference.minutes, timeDiff.previousTimeDifference.minutes)
+
+function isAvailable(hours, minutes) {
+    const currentTime = new Date();
+    console.log(currentTime.getHours(),currentTime.getMinutes())
+    // Parse the particular time (e.g., "15:27")
+    const enteredTime = new Date(currentTime);
+    enteredTime.setHours(hours, minutes, 0, 0); // Set the hours and minutes
+
+    // Calculate the previous time with minutes divisible by 15
+    let previousTime = new Date(currentTime);
+    if(previousTime.getMinutes()%15==0){
+        previousTime.setMinutes(currentTime.getMinutes() - (currentTime.getMinutes() % 15)-15);
+    }else{
+        previousTime.setMinutes(currentTime.getMinutes() - (currentTime.getMinutes() % 15));
+    }
+
+    // Check if enteredTime falls between previousTime and nextTime
+    const isBetween = enteredTime >= previousTime && enteredTime < currentTime;
+
+    // Print the results
+    console.log("Entered Time:", enteredTime.toLocaleTimeString());
+    console.log("Previous Time is", previousTime.toLocaleTimeString());
+    console.log("Is Entered Time between Previous and Next Time:", isBetween);
+
+    return isBetween;
+}
+
+
+
+function convertTo24HourFormat(time12hr) {
+    // Split the input time into hours, minutes, and meridian (AM/PM)
+    const timeParts = time12hr.split(' ');
+    const time = timeParts[0];
+    const meridian = timeParts[1].toLowerCase();
+
+    // Split the time into hours and minutes
+    let [hours, minutes] = time.split(':').map(Number);
+
+    // Convert to 24-hour format
+    if (meridian === 'pm' && hours !== 12) {
+        console.log("PM FOUND");
+        hours += 12;
+    } else if (meridian === 'am' && hours === 12) {
+        hours = 0;
+    }
+
+    // Format the result as HH:MM
+    return {
+        hours,minutes
+    }
+}
+
