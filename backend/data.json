@@ -1,5 +1,84 @@
 {
-    "data":[
-
-    ]
+  "data": [
+    {
+      "numbers": [
+        25,
+        30,
+        25,
+        30
+      ],
+      "timeStamp": "20:10 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    },
+    {
+      "numbers": [
+        15,
+        3,
+        3,
+        4
+      ],
+      "timeStamp": "20:18 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    },
+    {
+      "user": ""
+    },
+    {
+      "numbers": [
+        25,
+        25,
+        25,
+        25
+      ],
+      "timeStamp": "20:36 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    },
+    {
+      "numbers": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "timeStamp": "8:54 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    },
+    {
+      "numbers": [
+        25,
+        30,
+        25,
+        30
+      ],
+      "timeStamp": "9:1 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    },
+    {
+      "numbers": [
+        12,
+        14,
+        13,
+        14
+      ],
+      "timeStamp": "9:27 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    },
+    {
+      "numbers": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "timeStamp": "9:34 PM",
+      "date": "23-8-2023",
+      "user": "ADMIN"
+    }
+  ]
 }

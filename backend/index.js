@@ -90,7 +90,7 @@ app.get('/api/admin', (req, res) => {
         const latestData = dbData.data[dbData.data.length - 1];
         res.json(latestData);
     } else {
-        const dbFilePath = path.join(__dirname, 'db.json');
+        const dbFilePath = path.join(__dirname, 'data.json');
         const dbData = JSON.parse(fs.readFileSync(dbFilePath, 'utf-8'));
         res.json(dbData.data);
     }

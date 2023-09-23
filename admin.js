@@ -12,11 +12,12 @@ form.addEventListener('submit', (e) => {
     localStorage.setItem('api-nums', JSON.stringify([form.one.value, form.two.value, form.three.value, form.four.value]));
 })
 function getFromattedTime() {
-    let localTime = (new Date()).toLocaleString({ hour12: true });
+    let localTime = new Date()
     let ist = new Date(localTime);
     let date = `${ist.getDate()}-${ist.getMonth()}-${ist.getFullYear()}`;
-    let ampm = Number(ist.getHours()) >= 12 ? 'PM' : 'AM';
-    return { timeStamp: `${ist.getHours()}:${ist.getMinutes()} ${ampm}`, date };
+    let ampm = Number(localTime.getHours()) >= 12 ? 'PM' : 'AM';
+    let hour = localTime.getHours() > 12 ? localTime.getHours() - 12 : localTime.getHours();
+    return { timeStamp: `${hour}:${localTime.getMinutes()} ${ampm}`, date };
 }
 document.getElementById('submit').addEventListener('click', (e) => {
     console.log("Clicked");

@@ -5,7 +5,7 @@ let numberFromApiCall = JSON.parse(localStorage.getItem("api-nums")) || [];
 let fragmentElements = [];
 let animationInterval;
 let collisionStarted = false;
-document.getElementById('results').addEventListener('click',(e)=>{
+document.getElementById('results').addEventListener('click', (e) => {
   window.location.href = './table.html'
 })
 const getTheLatestEntryAndDisplay = async () => {
@@ -15,55 +15,50 @@ const getTheLatestEntryAndDisplay = async () => {
   Array.from(document.getElementsByClassName("number-container")).map(
     (e, index) => {
       e.textContent = data[index];
+      console.log("Running")
     }
   );
 };
 getTheLatestEntryAndDisplay();
 const anotherInterval = (date) => {
-    backWardTimeContainer.innerHTML = ''
-  let h1 = document.createElement("h1");
-  let h2 = document.createElement("h1");
+  backWardTimeContainer.innerHTML = ''
+  let h1 = document.createElement('h2');
+  let h2 = document.createElement('h2');
   if (date.getMinutes() % 15 === 0 && date.getSeconds() === 0) {
     h1.textContent = `${15}m`;
     h2.textContent = `0${0}sec`;
   } else if (date.getSeconds() === 0) {
-    h1.textContent = `${
-      Math.floor(
-        (date.getMinutes() +
-          (15 - (date.getMinutes() % 15)) -
-          date.getMinutes()) /
-          10
-      ) === 0
+    h1.textContent = `${Math.floor(
+      (date.getMinutes() +
+        (15 - (date.getMinutes() % 15)) -
+        date.getMinutes()) /
+      10
+    ) === 0
         ? "0"
         : ""
-    }${
-      date.getMinutes() + (15 - (date.getMinutes() % 15)) - date.getMinutes()
-    }m`;
-    h2.textContent = `${
-      Math.floor((60 - date.getSeconds()) / 10) === 0 ? "0" : ""
-    }${date.getSeconds()}sec`;
+      }${date.getMinutes() + (15 - (date.getMinutes() % 15)) - date.getMinutes()
+      }m`;
+    h2.textContent = `${Math.floor((60 - date.getSeconds()) / 10) === 0 ? "0" : ""
+      }${date.getSeconds()}s`;
   } else {
-    h1.textContent = `${
-      Math.floor(
-        (date.getMinutes() +
-          (15 - (date.getMinutes() % 15)) -
-          date.getMinutes() -
-          1) /
-          10
-      ) === 0
+    h1.textContent = `${Math.floor(
+      (date.getMinutes() +
+        (15 - (date.getMinutes() % 15)) -
+        date.getMinutes() -
+        1) /
+      10
+    ) === 0
         ? "0"
         : ""
-    }${
-      date.getMinutes() +
+      }${date.getMinutes() +
       (15 - (date.getMinutes() % 15)) -
       date.getMinutes() -
       1
-    }m`;
-    h2.textContent = `${
-      Math.floor((60 - date.getSeconds()) / 10) === 0 ? "0" : ""
-    }${60 - date.getSeconds()}sec`;
+      }m`;
+    h2.textContent = `${Math.floor((60 - date.getSeconds()) / 10) === 0 ? "0" : ""
+      }${60 - date.getSeconds()}sec`;
   }
-  let span = document.createElement("h1");
+  let span = document.createElement('h2');
   span.innerHTML = ":";
   backWardTimeContainer.append(h1, span, h2);
 };
@@ -73,17 +68,18 @@ setInterval(() => {
   let localTime = new Date();
   let ist = new Date(localTime);
   let ampm = Number(ist.getHours()) >= 12 ? "PM" : "AM";
-  let h1 = document.createElement("h1");
+  let h1 = document.createElement('h2');
+  let hours = localTime.getHours() > 12 ? localTime.getHours() % 12 : localTime.getHours();
   h1.id = "hour";
-  h1.innerHTML = `${localTime.getHours() > 12 ? localTime.getHours() % 12 : localTime.getHours()}:`;
-  let h2 = document.createElement("h1");
+  h1.innerHTML = `${Math.floor(hours / 10) === 0 ? '0' : ''}${hours}:`;
+  let h2 = document.createElement('h2');
   h2.id = "minute";
-  h2.innerHTML = `${ist.getMinutes()}:`;
-  let h3 = document.createElement("h1");
+  h2.innerHTML = `${Math.floor(localTime.getMinutes() / 10) === 0 ? '0' : ''}${ist.getMinutes()}:`;
+  let h3 = document.createElement('h2');
   h3.id = "sec";
-  h3.innerHTML = `${ist.getSeconds()} ${ampm}`;
+  h3.innerHTML = `${Math.floor(localTime.getSeconds() / 10) === 0 ? '0' : ''}${ist.getSeconds()} ${ampm}`;
   let div = document.createElement('div');
-  let heading = document.createElement('h1');
+  let heading = document.createElement('h2');
   heading.textContent = 'Current Time';
   div.append(heading);
   timeContainer.append(h1);
@@ -165,16 +161,11 @@ for (let i = 1; i <= 100; i++) {
 }
 
 function getFromattedTime() {
-  let localTime = new Date().toLocaleString({ hour12: true });
+  let localTime = new Date()
   let ist = new Date(localTime);
   let date = `${ist.getDate()}-${ist.getMonth()}-${ist.getFullYear()}`;
-  let ampm = Number(ist.getHours()) >= 12 ? "PM" : "AM";
-  return {
-    timeStamp: `${ist.getHours()}:${ist.getMinutes()} ${ampm}`,
-    date,
-    hour: ist.getHours(),
-    minutes: ist.getMinutes(),
-  };
+  let ampm = Number(localTime.getHours()) >= 12 ? 'PM' : 'AM';
+  return { timeStamp: `${localTime.getHours()}:${localTime.getMinutes()} ${ampm}`, date };
 }
 
 function postNumber(numbers) {
@@ -193,9 +184,12 @@ function postNumber(numbers) {
     .then((response) => {
       console.log(response);
     })
+    .then(() => {
+      getTheLatestEntryAndDisplay();
+    })
     .catch((error) => {
       console.log(error);
-    });
+    })
 
   console.log(numbers);
 }
@@ -236,6 +230,7 @@ function generateNumbers() {
     clearInterval(animation);
     console.log("Called Finally", numberFromApiCall);
     if (numberFromApiCall?.length >= 4) {
+      console.log("Calling From First Time Out")
       number1.textContent = numberFromApiCall[0];
       number2.textContent = numberFromApiCall[1];
       number3.textContent = numberFromApiCall[2];
@@ -257,12 +252,13 @@ function generateNumbers() {
     clearInterval(animation);
     console.log(numberFromApiCall);
     if (numberFromApiCall?.length >= 4) {
+      console.log("Calling From Second Time Out")
       Array.from(document.getElementsByClassName("number-container"))?.map(
         (elem, index) => {
           elem.innerHTML = numberFromApiCall[index];
         }
       );
-      localStorage.removeItem("api-nums");
+      postNumber(numberFromApiCall)
     } else {
       postNumber([
         number1.textContent,
@@ -271,12 +267,11 @@ function generateNumbers() {
         number4.textContent,
       ]);
     }
-    getTheLatestEntryAndDisplay();
   }, 1000);
 }
 
 async function adminNumber() {
-  let data = await fetch("http://localhost:3000/api/data");
+  let data = await fetch("http://localhost:3000/api/admin");
   data = await data.json();
   data = data?.filter((e) => e?.user === "ADMIN");
   for (let i = 0; i < data?.length; i++) {
@@ -284,7 +279,7 @@ async function adminNumber() {
     let date = getDateAndTime(`${e?.date} ${e?.timeStamp}`);
     let todayDate = getFromattedTime();
     let timeDiff = calculateTimeDifferences(e?.timeStamp.split(" ")[0]);
-    console.log("Running But Not Going");
+    console.log("Running But Not Going", date.date, todayDate.date);
     if (date.date === todayDate.date) {
       console.log("DATE MATCHED");
       let time = convertTo24HourFormat(e?.timeStamp);
@@ -397,9 +392,9 @@ function isAvailable(hours, minutes) {
   const isBetween = enteredTime >= previousTime && enteredTime < currentTime;
 
   // Print the results
-  console.log("Entered Time:", enteredTime.toLocaleTimeString());
-  console.log("Previous Time is", previousTime.toLocaleTimeString());
-  console.log("Is Entered Time between Previous and Next Time:", isBetween);
+  // console.log("Entered Time:", enteredTime.toLocaleTimeString());
+  // console.log("Previous Time is", previousTime.toLocaleTimeString());
+  // console.log("Is Entered Time between Previous and Next Time:", isBetween);
 
   return isBetween;
 }
