@@ -1,0 +1,89 @@
+ /* Basic styling for the Thunderball container */
+ body{
+    /* background-color: #1f1d1d !important; */
+ }
+ .container {
+    width: 400px;
+    height: 400px;
+    background-color: #000;
+    border-radius: 50%; /* Make it a circle */
+    border: 8px solid #ccc; /* Add a thick border */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Styling for number fragments */
+.fragment {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Make them circles */
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease-in-out; /* Smoother movement */
+}
+
+/* Define different colors for the fragments */
+.color-1 {
+    background-color: #ffcc00; /* Yellow */
+    color: #000;
+}
+
+.color-2 {
+    background-color: #ff5733; /* Red-Orange */
+    color: #fff;
+}
+
+.color-3 {
+    background-color: #3399ff; /* Blue */
+    color: #fff;
+}
+
+.color-4 {
+    background-color: #33cc33; /* Green */
+    color: #000;
+}
+
+.color-5 {
+    background-color: #cc33ff; /* Purple */
+    color: #fff;
+}
+#number-generation{
+    width: 30%;
+    margin: auto;
+}
+.num-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+.number-container{
+    border: 2px solid black;
+    margin: 10px;
+    border: none;
+    font-size: 30px;
+    background-color: #ff5733;
+    color: white;
+    border-radius: 20%;
+    padding: 10px;
+}
+#time{
+    display: flex;
+}
+#time-container{
+    background-color: rgb(121, 196, 121);
+    color: white;
+    margin-bottom: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    justify-content: space-evenly;
+
+}
+#time-container > #time,#time-container>#bac {
+    display: flex;
+    justify-content: space-between;
+}
