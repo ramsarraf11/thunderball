@@ -51,5 +51,5 @@ function isAvailable(hours, minutes) {
 
     return isBetween;
 }
-let time = convertTo24HourFormat('8:54 PM')
+let time = convertTo24HourFormat('11:23 PM')
 isAvailable(time.hours,time.minutes)
